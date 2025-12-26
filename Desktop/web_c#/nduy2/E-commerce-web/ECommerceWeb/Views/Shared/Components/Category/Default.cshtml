@@ -1,0 +1,39 @@
+﻿@using ECommerceWeb.ViewModels
+@model IEnumerable<CategoryVM>
+
+<div class="my-4">
+    <!-- Khung bao toàn bộ category -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+            <div class="row row-cols-3 row-cols-md-5 row-cols-lg-8 g-1">
+                @foreach (var item in Model)
+                {
+                    <div class="col">
+                        <a asp-controller="Home" asp-action="Index" asp-route-cate="@item.Id" class="text-decoration-none">
+                            <div class="card h-100 text-center border-0 category-card position-relative">
+                                <img src="@item.url" class="card-img-top p-1" alt="@item.Name" style="height:70px; object-fit:contain;" />
+                                <div class="card-body p-1">
+                                    <h6 class="card-title text-dark fw-bold small">@item.Name</h6>
+                                </div> 
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .category-card {
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+        .category-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #e3f2fd;
+        }
+</style>

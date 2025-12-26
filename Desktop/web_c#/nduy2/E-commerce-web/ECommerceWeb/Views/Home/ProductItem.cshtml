@@ -1,0 +1,47 @@
+﻿@using ECommerceWeb.Models.Entity
+@model IEnumerable<ECommerceWeb.ViewModels.ProductVM>
+<style>
+    .product-card img {
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover img {
+        transform: translateY(-5px);
+    }
+
+    .product-card:hover .card-title a {
+                color: #009EE1 !important;
+    }
+</style>
+
+@foreach (var product in Model)
+{
+    <div class="col-6 col-md-3 col-lg-2 mb-4">
+        <div class="card h-100 text-center product-card">
+            <!-- Ảnh sản phẩm -->
+            <a asp-action="Detail" asp-controller="Home" asp-route-id="@product.Id" class="d-flex justify-content-center align-items-center" style="height:160px;">
+                <img src="@product.Images.FirstOrDefault()?.Url" alt="@product.Name" class="img-fluid" style="max-height:150px; object-fit:contain;" />
+            </a>
+
+            <!-- Nội dung -->
+            <div class="card-body d-flex flex-column justify-content-between p-2 mt-3">
+                <!-- Tên sản phẩm -->
+                <h6 class="card-title fw-bold">
+                    <a asp-action="Detail" asp-controller="Home" asp-route-id="@product.Id"
+                       class="text-decoration-none text-dark d-block line-clamp">
+                        @product.Name
+                    </a>
+                </h6>
+
+                <!-- Giá và số lượng (luôn căn dưới) -->
+                <div class="mt-auto">
+                    <p class="card-text text-danger fw-bold mb-1">
+                        @product.Price.ToString("N0") ₫
+                    </p>
+                    <p class="card-text text-muted small">Đã bán 31,1k</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

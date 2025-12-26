@@ -1,0 +1,66 @@
+@model ECommerceWeb.ViewModels.AdminEditProductVM
+@using ECommerceWeb.Models.Entity
+@{
+    ViewBag.Title = "Edit Category";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div>
+        <a asp-action="Product" asp-controller="Admin" class="btn btn-secondary mb-4 bg-primary">
+            <i class="bi bi-arrow-left-circle me-2"></i> Quay lại
+        </a>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="border-bottom pb-3 mb-4">
+                <h2 class="h4 fw-semibold mb-0">Chỉnh sửa sản phẩm</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <form asp-action="EditProduct" asp-controller="Admin" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="control-label">Tên sản phẩm</label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Price" class="control-label">Giá sản phẩm</label>
+                            <input asp-for="Price" class="form-control" type="number" step="0.01" min="0" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="CategoryId" class="form-label">Danh mục</label>
+                            <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))"
+                                class="form-select">
+                                <option value="">-- Chọn danh mục --</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Status" class="form-label">Trạng thái</label>
+                            <select asp-for="Status" class="form-select">
+                                <option value="@ProductStatus.IN_STOCK">Còn hàng</option>
+                                <option value="@ProductStatus.OUT_OF_STOCK">Hết hàng</option>
+                                <option value="@ProductStatus.DISCONTINUE">Ngừng kinh doanh</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Description" class="control-label">Mô tả sản phẩm</label>
+                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Cập nhật sản phẩm">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

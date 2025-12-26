@@ -1,0 +1,40 @@
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <a asp-action="Product" asp-controller="Admin" class="text-decoration-none">
+                <div class="card shadow-sm text-center p-4">
+                    <h4>Quản lý sản phẩm</h4>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a asp-action="Category" asp-controller="Admin" class="text-decoration-none">
+                <div class="card shadow-sm text-center p-4">
+                    <h4>Quản lý danh mục</h4>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a asp-action="Order" asp-controller="Admin" class="text-decoration-none">
+                <div class="card shadow-sm text-center p-4">
+                    <h4>Quản lý đơn hàng</h4>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a asp-action="Revenue" asp-controller="Admin" class="text-decoration-none">
+                <div class="card shadow-sm text-center p-4">
+                    <h4>Thống kê doanh thu</h4>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

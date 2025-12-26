@@ -1,0 +1,132 @@
+﻿@model ECommerceWeb.ViewModels.ProductVM
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+<style>
+    .product-card img {
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover img {
+        transform: translateY(-5px);
+    }
+
+    .product-card:hover .card-title a {
+        color: #009EE1 !important;
+    }
+</style>
+<div class="container mt-4">
+    <div class="row g-2">
+        <!-- Khối ảnh -->
+        <div class="col-md-8">
+            <div class="border rounded shadow-sm bg-white p-3 h-100">
+                <div class="text-center">
+                    <img src="@Model.Images.FirstOrDefault()?.Url"
+                         alt="@Model.Name"
+                         class="img-fluid mb-3"
+                         style="max-height:500px; object-fit:contain;" />
+                </div>
+
+                <!-- Thumbnail nhỏ -->
+                <div class="d-flex justify-content-center gap-2 mt-3">
+                    @foreach (var img in Model.Images.Take(4))
+                    {
+                        <img src="@img.Url" alt="@Model.Name"
+                             class="img-thumbnail"
+                             style="width:100px; height:100px; object-fit:contain;" />
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Khối thông tin -->
+        <div class="col-md-4">
+            <div class="border rounded shadow-sm bg-white p-3 h-100">
+                <h2 class="fw-bold text-dark">@Model.Name</h2>
+                <p class="text-danger fs-3 fw-bold mb-1">
+                    @Model.Price.ToString("N0") ₫
+                </p>
+                <p class="text-muted">Đã bán: 31,1k sản phẩm</p>
+
+                <!-- Khuyến mãi -->
+                <div class="bg-light border rounded p-3 mb-3">
+                    <h5 class="text-success fw-bold mb-2">Khuyến mãi đặc biệt</h5>
+                    <ul class="mb-0">
+                        <li>Tặng phiếu mua hàng trị giá 200.000₫</li>
+                        <li>Miễn phí giao hàng toàn quốc</li>
+                        <li>Bảo hành chính hãng 12 tháng</li>
+                    </ul>
+                </div>
+
+                <!-- Nút hành động -->
+                <div class="d-flex gap-3 mt-3">
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <button type="submit" class="btn btn-outline-primary btn-lg fw-bold px-4">
+                            🛒 Thêm vào giỏ
+                        </button>
+                    </form>
+
+                    
+                    <a asp-controller="Order" asp-action="Checkout" asp-route-productId="@Model.Id" class="btn btn-warning btn-lg fw-bold px-4 text-white ms-auto">
+
+                        Mua ngay
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <!-- Mô tả chi tiết -->
+    <div class=" bg-white rounded shadow-sm p-3">
+        <h4 class="fw-bold mb-3">Thông tin chi tiết sản phẩm</h4>
+        <ul>
+            @foreach (var line in Model.Description.Split('\n'))
+            {
+                <li>@line</li>
+            }
+        </ul>
+    </div>
+
+
+    <!-- Sản phẩm gợi ý -->
+    <div class="row mt-5">
+        <h4 class="fw-bold mb-4">Sản phẩm gợi ý</h4>
+        <div class="d-flex flex-wrap gap-3">
+            @* Ví dụ hiển thị 4 sản phẩm gợi ý *@
+            @foreach (var product in (IEnumerable<ECommerceWeb.ViewModels.ProductVM>)ViewBag.RelatedProducts)
+            {
+                <div class="col-6 col-md-3 col-lg-2 mb-4">
+                    <div class="card h-100 text-center product-card">
+                        <!-- Ảnh sản phẩm -->
+                        <a asp-action="Detail" asp-controller="Home" asp-route-id="@product.Id" class="d-flex justify-content-center align-items-center" style="height:160px;">
+                            <img src="@product.Images.FirstOrDefault()?.Url" alt="@product.Name" class="img-fluid" style="max-height:150px; object-fit:contain;" />
+                        </a>
+
+                        <!-- Nội dung -->
+                        <div class="card-body d-flex flex-column justify-content-between p-2 mt-3">
+                            <!-- Tên sản phẩm -->
+                            <h6 class="card-title fw-bold">
+                                <a asp-action="Detail" asp-controller="Home" asp-route-id="@product.Id"
+                                   class="text-decoration-none text-dark d-block line-clamp">
+                                    @product.Name
+                                </a>
+                            </h6>
+
+                            <!-- Giá và số lượng (luôn căn dưới) -->
+                            <div class="mt-auto">
+                                <p class="card-text text-danger fw-bold mb-1">
+                                    @product.Price.ToString("N0") ₫
+                                </p>
+                                <p class="card-text text-muted small">Đã bán 31,1k</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

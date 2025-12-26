@@ -1,0 +1,84 @@
+﻿@using ECommerceWeb.ViewModels
+@model List<CartItemVM>
+@{
+    ViewData["Title"] = "Thanh toán";
+    Layout = "_LayoutNonCate";
+}
+
+<div class="container mt-4">
+       <h2 class="fw-bold text-primary mb-4">🛒 Giỏ hàng của bạn</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            Giỏ hàng của bạn đang trống. Hãy thêm sản phẩm để mua nhé!
+        </div>
+    }
+    else
+    {
+<table class="table table-borderless align-middle bg-white shadow-sm">
+    <thead class="table-light text-center">
+        <tr class="fw-bold">
+            <th style="width:90px;">Ảnh</th>
+            <th style="width:220px;">Sản phẩm</th>
+            <th style="width:120px;">Giá</th>
+            <th style="width:180px;">Số lượng</th>
+            <th style="width:130px;">Tổng</th>
+            <th style="width:80px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    <img src="@item.ImageUrl" alt="@item.Name"
+                         class="img-fluid rounded" style="max-height:70px;" />
+                </td>
+                <td>
+                    <div class="fw-semibold">@item.Name</div>
+                </td>
+                <td class="text-danger text-center fw-bold">
+                    @item.Price.ToString("N0") ₫
+                </td>
+                <td class="text-center">
+                    <form asp-controller="Cart" asp-action="UpdateQuantity" method="post" class="d-flex justify-content-center align-items-center gap-2">
+                        <input type="hidden" name="productId" value="@item.ProductId" />
+                        <button type="submit" name="quantity" value="@(item.Quantity - 1)" class="btn btn-sm btn-outline-secondary">−</button>
+                        <span class="fw-bold">@item.Quantity</span>
+                        <button type="submit" name="quantity" value="@(item.Quantity + 1)" class="btn btn-sm btn-outline-secondary">+</button>
+                    </form>
+                </td>
+                <td class="text-danger text-center fw-bold">
+                            @((item.Price * item.Quantity).ToString("N0"))₫
+                </td>
+                <td class="text-center">
+                    <form asp-controller="Cart" asp-action="Remove" method="post">
+                        <input type="hidden" name="productId" value="@item.ProductId" />
+                        <button type="submit" class="btn btn-sm btn-outline-danger">🗑</button>
+                    </form>
+                </td>
+            </tr>
+            }
+    </tbody>
+</table>
+        <!-- Tổng cộng -->
+        <div class="d-flex justify-content-end mt-4">
+            <div class="border rounded p-3 bg-light" style="width:350px;">
+                <h5 class="fw-bold">Tổng cộng:</h5>
+                <p class="fs-4 text-danger fw-bold">
+                    @Model.Sum(x => x.Price * x.Quantity).ToString("N0") ₫
+                </p>
+                <div class="d-flex gap-3">
+                    <form asp-action="ConfirmOrder" method="post" class="text-end mt-4">
+                        <button type="submit" class="btn btn-warning fw-bold px-4 text-white">
+                            ✅ Đặt hàng
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    }
+</div>

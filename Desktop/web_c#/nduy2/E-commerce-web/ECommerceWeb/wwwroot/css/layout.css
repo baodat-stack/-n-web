@@ -1,0 +1,54 @@
+﻿html, body {
+    height: 100%; /* chiếm toàn bộ chiều cao */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* nội dung chính chiếm hết khoảng trống */
+}
+
+.instant-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: none;
+    border-radius: 0 0 6px 6px; /* bo góc dưới */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* tạo độ nổi */
+    margin-top: 5px;
+    z-index: 999;
+}
+
+
+
+.result-entry {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    height: 60px;
+}
+
+    .result-entry:hover {
+        background-color: #f1f1f1;
+    }
+
+.result-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.media-left img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}

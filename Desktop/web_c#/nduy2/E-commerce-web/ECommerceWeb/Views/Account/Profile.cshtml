@@ -1,0 +1,131 @@
+﻿@model ECommerceWeb.ViewModels.UserProfileVM
+
+@{
+    ViewData["Title"] = "Thông tin tài khoản";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title mb-4">Ảnh đại diện</h5>
+
+                    @if (!string.IsNullOrEmpty(Model.AvatarUrl) && System.IO.File.Exists(Model.AvatarUrl))
+                    {
+                        <img src="@Url.Content("~/Avatar/" + System.IO.Path.GetFileName(Model.AvatarUrl))"
+                             class="img-fluid rounded-circle mb-3"
+                             style="width: 200px; height: 200px; object-fit: cover;"
+                             alt="Avatar">
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <i class="bi bi-person-circle" style="font-size: 150px; color: #ccc;"></i>
+                        </div>
+                    }
+
+                    <form asp-action="UploadAvatar" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <input type="file" class="form-control" name="avatarFile" accept=".jpg,.jpeg" required>
+                            <small class="text-muted">Chỉ chấp nhận file .jpg (tối đa 5MB)</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-upload"></i> Tải lên
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Thông tin cá nhân</h5>
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show">
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form asp-action="UpdateProfile" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="mb-3">
+                            <label asp-for="Username" class="form-label"></label>
+                            <input asp-for="Username" class="form-control" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label"></label>
+                            <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ngày tạo tài khoản</label>
+                            <input value="@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")" class="form-control" readonly />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Cập nhật thông tin
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Đổi mật khẩu</h5>
+
+                    <form asp-action="ChangePassword" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Mật khẩu cũ</label>
+                            <input type="password" name="OldPassword" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Mật khẩu mới</label>
+                            <input type="password" name="NewPassword" class="form-control" required minlength="6" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Xác nhận mật khẩu mới</label>
+                            <input type="password" name="ConfirmNewPassword" class="form-control" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-key"></i> Đổi mật khẩu
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
