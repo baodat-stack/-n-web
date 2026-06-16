@@ -1,0 +1,18 @@
+# Sensitive files
+db.properties
+.env
+passwords.md
+
+# Java build files
+target/
+build/
+*.class
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Logs
+*.log
+Thumbs.db
