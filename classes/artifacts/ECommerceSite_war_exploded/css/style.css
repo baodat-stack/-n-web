@@ -1,0 +1,52 @@
+/* WebContent/css/style.css */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar-dark .navbar-brand {
+    font-weight: bold;
+    color: #ff9900 !important;
+    font-size: 1.5rem;
+}
+
+.btn-warning {
+    background-color: #ffd814;
+    border-color: #fcd200;
+    color: #111;
+}
+
+.btn-warning:hover {
+    background-color: #f7ca00;
+    border-color: #f2c200;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+    border: 1px solid #ddd;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.product-img {
+    height: 200px;
+    object-fit: contain;
+    padding: 10px;
+}
+
+footer {
+    background-color: #232f3e;
+    color: white;
+    padding: 20px 0;
+    margin-top: auto;
+}
+
+.table-custom th {
+    background-color: #f3f3f3;
+}
